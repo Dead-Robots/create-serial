@@ -1,0 +1,30 @@
+from enum import Enum
+
+# Create-related constants
+# Create Opcodes
+START = 128
+SAFE = 131
+FULL = 132
+POWER = 133
+DRIVE = 137
+LEDS = 139
+QUERY = 142
+DRIVE_DIRECT = 145
+DRIVE_PWM = 146
+QUERY_LIST = 149
+LEDS_ASCII = 164
+STOP = 173
+
+# Create Sensor Packet numbers
+VOLTAGE = 22
+LEFT_ENCODER = 43
+RIGHT_ENCODER = 44
+
+# Create Power LED values
+POWER_LED_GREEN = 0
+POWER_LED_YELLOW = 64
+POWER_LED_INTENSITY_OFF = 0
+POWER_LED_INTENSITY_FULL = 255
+
+# Create's other LEDs
+CHECK_ROBOT__DOCK__SPOT__DEBRIS__ALL_OFF = 0
