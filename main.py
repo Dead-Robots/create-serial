@@ -2,9 +2,12 @@
 from time import sleep
 from myserial import open_serial, close_serial
 from createCommands import open_create, close_create, read_create_encoders, create_drive, create_dd, create_pwm
+import sys
 
 
 def main():
+    print('Python ', sys.version)
+
     # Open a serial port connection to the Create
     open_serial()
 
