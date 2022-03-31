@@ -1,6 +1,13 @@
+"""
+Lowest level controller-to-Create2 serial interface functions
+"""
+
 import serial
 from time import sleep
+from colorama import Fore
+from colorama import init as colorama_init
 
+colorama_init(autoreset=True)
 
 # Serial interface initialization parameters
 BAUD_RATE = 115200
@@ -15,38 +22,40 @@ SERIAL_IO_WAIT = 0.015
 
 
 def open_serial():
-    # Open serial port connection to the Create
+    # Attempt to open serial port connection to the Create
     ser.port = PORT
     ser.baudrate = BAUD_RATE
     ser.timeout = TIMEOUT
     try:
         ser.open()
     except serial.SerialException:
-        print('\n!!! Unable to open port: Check Create cable at Wombat !!!\n')
+        print(Fore.RED + f'\nFailed to open port:{PORT}\nCheck Create cable at Wombat!!!\n')
         exit(1)
-    if ser.isOpen():
-        print('\nOpened port to Create: {} at {} bps\n'.format(ser.port, ser.baudrate))
-    else:
-        raise Exception('\n!!! Failed to open {} at {} !!!\n'.format(PORT, BAUD_RATE))
+    print(Fore.GREEN + f'\nConnected to Create on:\n{ser.port} at {ser.baudrate} bps')
+
     # Check and clear any extraneous serial input bytes
     sleep(SERIAL_IO_WAIT)
-    if ser.inWaiting():
-        print("Cleared {} extraneous bytes from serial input".format(ser.inWaiting()))
+    if ser.in_waiting:
+        print(Fore.YELLOW + f'Cleared {ser.in_waiting} extraneous bytes from serial input')
         ser.reset_input_buffer()
 
 
 def close_serial():
     # Close serial port connection to the Create
-    if ser.isOpen():
+    if ser.is_open:
         ser.close()
-        print('\nClosed port: {}'.format(ser.port))
+        print(Fore.GREEN + f'Closed port:{ser.port}')
     print()
 
 
 def send_to_create(cmd):
     # Send command and any parameters to Create
     # cmd: list of bytes to write to the Create serial port
-    ser.write(serial.to_bytes(cmd))
+    # TODO figure out how to handle an exception when sending a command to Create
+    try:
+        ser.write(serial.to_bytes(cmd))
+    except serial.SerialException:
+        print(Fore.RED + '\nError sending command to Create\n')
     sleep(SERIAL_IO_WAIT)
 
 
