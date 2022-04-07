@@ -1,8 +1,8 @@
 """
 Macro-level Create2 functions
 """
-from createserial.create_constants import Opcode, Packet, PowerLED, CHECK_ROBOT__DOCK__SPOT__DEBRIS__ALL_OFF
-from myserial import send_to_create, receive_from_create, close_serial
+from createserial.constants import Opcode, Packet, PowerLED, CHECK_ROBOT__DOCK__SPOT__DEBRIS__ALL_OFF
+from createserial.serial import send_to_create, receive_from_create, close_serial
 from colorama import Fore
 from colorama import init as colorama_init
 
