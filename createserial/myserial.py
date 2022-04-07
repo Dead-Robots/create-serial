@@ -22,7 +22,7 @@ SERIAL_IO_WAIT = 0.015
 
 
 def open_serial():
-    # Attempt to open serial port connection to the Create
+    """Attempt to open serial port connection to the Create"""
     ser.port = PORT
     ser.baudrate = BAUD_RATE
     ser.timeout = TIMEOUT
@@ -41,7 +41,7 @@ def open_serial():
 
 
 def close_serial():
-    # Close serial port connection to the Create
+    """Close serial port connection to the Create"""
     if ser.is_open:
         ser.close()
         print(Fore.GREEN + f'Closed port:{ser.port}')
@@ -49,8 +49,10 @@ def close_serial():
 
 
 def send_to_create(cmd):
-    # Send command and any parameters to Create
-    # cmd: list of bytes to write to the Create serial port
+    """
+    Send command and any parameters to Create
+    cmd: list of bytes to write to the Create serial port
+    """
     # TODO figure out how to handle an exception when sending a command to Create
     try:
         ser.write(serial.to_bytes(cmd))
@@ -60,5 +62,5 @@ def send_to_create(cmd):
 
 
 def receive_from_create(num_bytes):
-    # Return Create sensor values as an array of bytes
+    """Return Create sensor values as an array of bytes"""
     return ser.read(num_bytes)
