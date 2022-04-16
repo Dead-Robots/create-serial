@@ -22,6 +22,10 @@ class Packet(IntEnum):
     VOLTAGE = 22
     LEFT_ENCODER = 43
     RIGHT_ENCODER = 44
+    LEFT_CLIFF = 9
+    RIGHT_CLIFF = 12
+    LEFT_CLIFF_SIGNAL = 28
+    RIGHT_CLIFF_SIGNAL = 31
 
 
 class PowerLED(IntEnum):

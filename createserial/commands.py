@@ -94,37 +94,36 @@ def read_create_encoders():
     return l_encoder, r_encoder
 
 
-class Encoders:
-    """Represents the encoders of the Create and handles value wraparound"""
+def read_cliff_signals():
+    """Read Create's left and right wheel encoder values"""
+    size = 4
+    data = query_create([Opcode.QUERY_LIST, 2, Packet.LEFT_CLIFF_SIGNAL, Packet.RIGHT_CLIFF_SIGNAL], size)
+    l_cliff_signal = 0
+    r_cliff_signal = 0
+    if len(data) == size:
+        l_cliff_signal = (data[0] << 8) + data[1]
+        r_cliff_signal = (data[2] << 8) + data[3]
+    elif len(data) > 0:
+        print(Fore.YELLOW + f'\nExpected {size} bytes, got {len(data)}')
+    else:
+        print(Fore.RED + POWER_ON_CREATE_MSG)
+    return l_cliff_signal, r_cliff_signal
 
-    def __init__(self):
-        self.__prev_left, self.__prev_right = self.__get_raw()
-        self.__left = self.__right = 0
 
-    @property
-    def values(self):
-        """The left and right encoder values relative to the robot's start"""
-        left, right = self.__get_raw()
-        adjusted_left = self.__adjust(left, self.__prev_left)
-        adjusted_right = self.__adjust(right, self.__prev_right)
-        self.__prev_left, self.__prev_right = left, right
-        self.__left += adjusted_left
-        self.__right += adjusted_right
-        return self.__left, self.__right
-
-    def reset(self):
-        """Reset the values back to 0"""
-        self.__init__()
-
-    @staticmethod
-    def __adjust(value, prev):
-        if abs(value - prev) > 32768:
-            value = value + 65536 if value < 32768 else value - 65536
-        return value - prev
-
-    @staticmethod
-    def __get_raw():
-        return read_create_encoders()
+def read_cliff_sensors():
+    """Read Create's left and right cliff sensors"""
+    size = 2
+    data = query_create([Opcode.QUERY_LIST, 2, Packet.LEFT_CLIFF, Packet.RIGHT_CLIFF], size)
+    l_cliff = 0
+    r_cliff = 0
+    if len(data) == size:
+        l_cliff = data[0]
+        r_cliff = data[1]
+    elif len(data) > 0:
+        print(Fore.YELLOW + f'\nExpected {size} bytes, got {len(data)}')
+    else:
+        print(Fore.RED + POWER_ON_CREATE_MSG)
+    return l_cliff, r_cliff
 
 
 def _high_byte(val):
