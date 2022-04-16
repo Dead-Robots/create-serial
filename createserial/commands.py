@@ -149,7 +149,7 @@ def create_drive(speed, radius):
     Drive using Create's "drive" command
     speed range -500 to 500 mm/sec
     """
-    send_to_create([Opcode.DRIVE, *as_bytes(speed), *as_bytes(radius)])
+    send_to_create([Opcode.DRIVE, *as_bytes(_limit(speed, -500, 500)), *as_bytes(radius)])
 
 
 def create_dd(l_speed, r_speed):
@@ -157,9 +157,13 @@ def create_dd(l_speed, r_speed):
     Drive using Create's "drive direct" command
     Speed range -500 to 500 mm/sec
     """
-    send_to_create([Opcode.DRIVE_DIRECT, *as_bytes(r_speed), *as_bytes(l_speed)])
+    send_to_create([Opcode.DRIVE_DIRECT, *as_bytes(_limit(r_speed, -500, 500)), *as_bytes(_limit(l_speed, -500, 500))])
 
 
 def create_pwm(l_pwm, r_pwm):
     """speed (pwm) range -255 to 255"""
-    send_to_create([Opcode.DRIVE_DIRECT, *as_bytes(r_pwm), *as_bytes(l_pwm)])
+    send_to_create([Opcode.DRIVE_DIRECT, *as_bytes(_limit(r_pwm, -255, 255)), *as_bytes(_limit(l_pwm, -255, 255))])
+
+
+def _limit(num, minimum, maximum):
+    return min(max(minimum, num), maximum)

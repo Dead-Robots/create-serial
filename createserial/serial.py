@@ -64,3 +64,27 @@ def send_to_create(cmd):
 def receive_from_create(num_bytes):
     """Return Create sensor values as an array of bytes"""
     return ser.read(num_bytes)
+
+
+def query_create(cmd, num_bytes, timeout=None):
+    """Send a command to the create and return its response"""
+    cached_timeout = timeout
+    if timeout is not None:
+        ser.timeout = timeout
+
+    send_to_create(cmd)
+    response = receive_from_create(num_bytes)
+
+    # Clean out erroneous create messages and re-query
+    while response.startswith(b'    '):
+        ser.timeout = 0.01  # Small timeout to clear out buffer
+        bad_response = receive_from_create(num_bytes)
+        print(f"Oh no, I got a bad response: '{bad_response}'")
+        ser.timeout = cached_timeout if timeout is None else timeout
+        send_to_create(cmd)
+        response = receive_from_create(num_bytes)
+
+    if timeout is not None:
+        ser.timeout = cached_timeout
+
+    return response
