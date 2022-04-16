@@ -2,7 +2,7 @@
 Macro-level Create2 functions
 """
 from createserial.constants import Opcode, Packet, PowerLED, CHECK_ROBOT__DOCK__SPOT__DEBRIS__ALL_OFF
-from createserial.serial import send_to_create, receive_from_create, close_serial
+from createserial.serial import send_to_create, close_serial, query_create
 from colorama import Fore
 from colorama import init as colorama_init
 
@@ -22,8 +22,7 @@ def open_create():
     # Read Create's battery voltage to verify the Create is powered on and communicating
     # "size" is the number of bytes expected in the reply sent by the Create
     size = 2
-    send_to_create([Opcode.QUERY, Packet.VOLTAGE])
-    data = receive_from_create(size)
+    data = query_create([Opcode.QUERY, Packet.VOLTAGE], size)
     if len(data) == size:
         voltage = float((data[0] << 8) + data[1]) / 1000.0
         battery_voltage_msg(voltage)
@@ -82,8 +81,7 @@ def display_on_create(msg):
 def read_create_encoders():
     """Read Create's left and right wheel encoder values"""
     size = 4
-    send_to_create([Opcode.QUERY_LIST, 2, Packet.LEFT_ENCODER, Packet.RIGHT_ENCODER])
-    data = receive_from_create(size)
+    data = query_create([Opcode.QUERY_LIST, 2, Packet.LEFT_ENCODER, Packet.RIGHT_ENCODER], size)
     l_encoder = 0
     r_encoder = 0
     if len(data) == size:
