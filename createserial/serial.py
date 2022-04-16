@@ -76,7 +76,7 @@ def query_create(cmd, num_bytes, timeout=None):
     response = receive_from_create(num_bytes)
 
     # Clean out erroneous create messages and re-query
-    while response.startswith(b'    '):
+    while response.startswith(b' ' * max(num_bytes, 4)):
         ser.timeout = 0.01  # Small timeout to clear out buffer
         bad_response = receive_from_create(100)
         print(f"Oh no, I got a bad response: '{bad_response}'")
