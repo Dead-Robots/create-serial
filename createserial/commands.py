@@ -80,15 +80,16 @@ def display_on_create(msg):
 
 def read_create_encoders():
     """Read Create's left and right wheel encoder values"""
-    size = 4
-    data = query_create([Opcode.QUERY_LIST, 2, Packet.LEFT_ENCODER, Packet.RIGHT_ENCODER], size)
+    num_return_bytes = 4
+    num_sensor_packets = 2
+    data = query_create([Opcode.QUERY_LIST, num_sensor_packets, Packet.LEFT_ENCODER, Packet.RIGHT_ENCODER], num_return_bytes)
     l_encoder = 0
     r_encoder = 0
-    if len(data) == size:
+    if len(data) == num_return_bytes:
         l_encoder = (data[0] << 8) + data[1]
         r_encoder = (data[2] << 8) + data[3]
     elif len(data) > 0:
-        print(Fore.YELLOW + f'\nExpected {size} bytes, got {len(data)}')
+        print(Fore.YELLOW + f'\nExpected {num_return_bytes} bytes, got {len(data)}')
     else:
         print(Fore.RED + POWER_ON_CREATE_MSG)
     return l_encoder, r_encoder
@@ -96,15 +97,16 @@ def read_create_encoders():
 
 def read_cliff_signals():
     """Read Create's left and right wheel encoder values"""
-    size = 4
-    data = query_create([Opcode.QUERY_LIST, 2, Packet.LEFT_CLIFF_SIGNAL, Packet.RIGHT_CLIFF_SIGNAL], size)
+    num_return_bytes = 2
+    num_sensor_packets = 2
+    data = query_create([Opcode.QUERY_LIST, num_sensor_packets, Packet.LEFT_CLIFF_SIGNAL, Packet.RIGHT_CLIFF_SIGNAL], num_return_bytes)
     l_cliff_signal = 0
     r_cliff_signal = 0
-    if len(data) == size:
+    if len(data) == num_return_bytes:
         l_cliff_signal = (data[0] << 8) + data[1]
         r_cliff_signal = (data[2] << 8) + data[3]
     elif len(data) > 0:
-        print(Fore.YELLOW + f'\nExpected {size} bytes, got {len(data)}')
+        print(Fore.YELLOW + f'\nExpected {num_return_bytes} bytes, got {len(data)}')
     else:
         print(Fore.RED + POWER_ON_CREATE_MSG)
     return l_cliff_signal, r_cliff_signal
@@ -112,15 +114,16 @@ def read_cliff_signals():
 
 def read_cliff_sensors():
     """Read Create's left and right cliff sensors"""
-    size = 2
-    data = query_create([Opcode.QUERY_LIST, 2, Packet.LEFT_CLIFF, Packet.RIGHT_CLIFF], size)
+    num_return_bytes = 4
+    num_sensor_packets = 2
+    data = query_create([Opcode.QUERY_LIST, num_return_bytes, Packet.LEFT_CLIFF, Packet.RIGHT_CLIFF], num_sensor_packets)
     l_cliff = 0
     r_cliff = 0
-    if len(data) == size:
+    if len(data) == num_sensor_packets:
         l_cliff = data[0]
         r_cliff = data[1]
     elif len(data) > 0:
-        print(Fore.YELLOW + f'\nExpected {size} bytes, got {len(data)}')
+        print(Fore.YELLOW + f'\nExpected {num_sensor_packets} bytes, got {len(data)}')
     else:
         print(Fore.RED + POWER_ON_CREATE_MSG)
     return l_cliff, r_cliff
