@@ -79,7 +79,7 @@ def query_create(cmd, num_bytes, timeout=None):
     if response.startswith(b' ' * max(num_bytes, 4)):
         ser.timeout = 0.01  # Small timeout to clear out buffer
         print(f"Oh no, I got a bad response: ", end=' ')
-        while (bad_response := receive_from_create(1)) != b'\r':
+        while bad_response := receive_from_create(1) != b'\r':
             print(bad_response, end='')
         ser.timeout = cached_timeout if timeout is None else timeout
         response = receive_from_create(num_bytes)
