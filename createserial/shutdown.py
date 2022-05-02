@@ -17,4 +17,4 @@ def thread_main(seconds):
         close_create()
         close_serial()
     print("Create base shutdown after", round(time()-start, 2), "seconds")
-    shut_down_in(0). # shutdown the wombat
+    shut_down_in(0)  # shutdown the wombat
