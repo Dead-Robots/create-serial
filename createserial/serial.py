@@ -2,10 +2,12 @@
 Lowest level controller-to-Create2 serial interface functions
 """
 
-import serial
-from time import sleep
+import serial, threading
+from time import sleep, time
 from colorama import Fore
 from colorama import init as colorama_init
+
+lock = threading.Lock()
 
 colorama_init(autoreset=True)
 
@@ -55,7 +57,8 @@ def send_to_create(cmd):
     """
     # TODO figure out how to handle an exception when sending a command to Create
     try:
-        ser.write(serial.to_bytes(cmd))
+        with lock:
+            ser.write(serial.to_bytes(cmd))
     except serial.SerialException:
         print(Fore.RED + '\nError sending command to Create\n')
     sleep(SERIAL_IO_WAIT)
@@ -63,8 +66,8 @@ def send_to_create(cmd):
 
 def receive_from_create(num_bytes):
     """Return Create sensor values as an array of bytes"""
-    return ser.read(num_bytes)
-
+    with lock:
+	    return ser.read(num_bytes)
 
 def query_create(cmd, num_bytes, timeout=None):
     """Send a command to the create and return its response"""
