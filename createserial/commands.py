@@ -97,7 +97,7 @@ def read_create_encoders():
 
 def read_cliff_signals():
     """Read Create's left and right wheel encoder values"""
-    num_return_bytes = 2
+    num_return_bytes = 4
     num_sensor_packets = 2
     data = query_create([Opcode.QUERY_LIST, num_sensor_packets, Packet.LEFT_CLIFF_SIGNAL, Packet.RIGHT_CLIFF_SIGNAL], num_return_bytes)
     l_cliff_signal = 0
@@ -114,7 +114,7 @@ def read_cliff_signals():
 
 def read_cliff_sensors():
     """Read Create's left and right cliff sensors"""
-    num_return_bytes = 4
+    num_return_bytes = 2
     num_sensor_packets = 2
     data = query_create([Opcode.QUERY_LIST, num_return_bytes, Packet.LEFT_CLIFF, Packet.RIGHT_CLIFF], num_sensor_packets)
     l_cliff = 0
