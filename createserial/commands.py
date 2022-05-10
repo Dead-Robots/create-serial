@@ -2,9 +2,10 @@
 Macro-level Create2 functions
 """
 from createserial.constants import Opcode, Packet, PowerLED, CHECK_ROBOT__DOCK__SPOT__DEBRIS__ALL_OFF
-from createserial.serial import send_to_create, close_serial, query_create
+from createserial.serial import send_to_create, close_serial, query_create, receive_from_create
 from colorama import Fore
 from colorama import init as colorama_init
+from time import sleep
 
 colorama_init(autoreset=True)
 
@@ -42,6 +43,14 @@ def open_create():
 
     # Set Create's 7-segment LED array to 'CONN' denoting it is connected
     display_on_create('CONN')
+
+
+def reset_create():
+    send_to_create([Opcode.RESET])
+    sleep(5.0)
+    # Start dialog with Create - must do this first before sending any other command
+    send_to_create([Opcode.START])
+    msg = receive_from_create(300)
 
 
 def battery_voltage_msg(voltage):
