@@ -1,5 +1,5 @@
 from createserial.serial import open_serial, close_serial
-from createserial.commands import open_create, close_create
+from createserial.commands import open_create, close_create, reset_create
 
 
 def connect():
