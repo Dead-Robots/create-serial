@@ -3,6 +3,7 @@ from enum import IntEnum
 
 class Opcode(IntEnum):
     """Create Opcodes"""
+    RESET = 7
     START = 128
     SAFE = 131
     FULL = 132
