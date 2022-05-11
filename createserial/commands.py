@@ -50,7 +50,7 @@ def reset_create():
     sleep(5.0)
     # Start dialog with Create - must do this first before sending any other command
     send_to_create([Opcode.START])
-    msg = receive_from_create(300)
+    msg = receive_from_create(1000)
 
 
 def battery_voltage_msg(voltage):
