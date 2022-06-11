@@ -2,8 +2,9 @@
 Lowest level controller-to-Create2 serial interface functions
 """
 
-import serial, threading
-from time import sleep, time
+from time import sleep
+import serial
+import threading
 from colorama import Fore
 from colorama import init as colorama_init
 
@@ -38,8 +39,9 @@ def open_serial():
     # Check and clear any extraneous serial input bytes
     sleep(SERIAL_IO_WAIT)
     if ser.in_waiting:
-        print(Fore.YELLOW + f'Cleared {ser.in_waiting} extraneous bytes from serial input')
-        ser.reset_input_buffer()
+        msg = receive_from_create(1000)
+        print(Fore.YELLOW + f'Cleared {len(msg)} extraneous bytes from serial input')
+        # ser.reset_input_buffer()
 
 
 def close_serial():
@@ -67,7 +69,8 @@ def send_to_create(cmd):
 def receive_from_create(num_bytes):
     """Return Create sensor values as an array of bytes"""
     with lock:
-	    return ser.read(num_bytes)
+        return ser.read(num_bytes)
+
 
 def query_create(cmd, num_bytes, timeout=None):
     """Send a command to the create and return its response"""

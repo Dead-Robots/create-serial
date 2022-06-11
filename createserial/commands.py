@@ -28,7 +28,7 @@ def open_create():
         voltage = float((data[0] << 8) + data[1]) / 1000.0
         battery_voltage_msg(voltage)
     elif len(data) > 0:
-        print(Fore.YELLOW + f'\nExpected {size} bytes, got {len(data)}')
+        print(Fore.YELLOW + f'\nReading Battery Voltage: Expected {size} bytes, got {len(data)}')
     else:
         print(Fore.RED + POWER_ON_CREATE_MSG)
         send_to_create([Opcode.STOP])
@@ -92,51 +92,105 @@ def read_create_encoders():
     """Read Create's left and right wheel encoder values"""
     num_return_bytes = 4
     num_sensor_packets = 2
-    data = query_create([Opcode.QUERY_LIST, num_sensor_packets, Packet.LEFT_ENCODER, Packet.RIGHT_ENCODER], num_return_bytes)
+    data = query_create([Opcode.QUERY_LIST, num_sensor_packets, Packet.LEFT_ENCODER, Packet.RIGHT_ENCODER],
+                        num_return_bytes)
     l_encoder = 0
     r_encoder = 0
     if len(data) == num_return_bytes:
         l_encoder = (data[0] << 8) + data[1]
         r_encoder = (data[2] << 8) + data[3]
     elif len(data) > 0:
-        print(Fore.YELLOW + f'\nExpected {num_return_bytes} bytes, got {len(data)}')
+        print(Fore.YELLOW + f'\nReading Encoders: Expected {num_return_bytes} bytes, got {len(data)}')
     else:
         print(Fore.RED + POWER_ON_CREATE_MSG)
     return l_encoder, r_encoder
+
+
+def start_encoders_stream():
+    num_packets = 2
+    send_to_create([Opcode.START_STREAM, num_packets, Packet.LEFT_ENCODER, Packet.RIGHT_ENCODER])
+
+
+def pause_stream():
+    pause = 0
+    send_to_create([Opcode.PAUSE_RESUME_STREAM, pause])
+
+
+def resume_stream():
+    resume = 1
+    send_to_create([Opcode.PAUSE_RESUME_STREAM, resume])
 
 
 def read_cliff_signals():
     """Read Create's left and right wheel encoder values"""
     num_return_bytes = 4
     num_sensor_packets = 2
-    data = query_create([Opcode.QUERY_LIST, num_sensor_packets, Packet.LEFT_CLIFF_SIGNAL, Packet.RIGHT_CLIFF_SIGNAL], num_return_bytes)
+    data = query_create([Opcode.QUERY_LIST, num_sensor_packets, Packet.LEFT_CLIFF_SIGNAL, Packet.RIGHT_CLIFF_SIGNAL],
+                        num_return_bytes)
     l_cliff_signal = 0
     r_cliff_signal = 0
     if len(data) == num_return_bytes:
         l_cliff_signal = (data[0] << 8) + data[1]
         r_cliff_signal = (data[2] << 8) + data[3]
     elif len(data) > 0:
-        print(Fore.YELLOW + f'\nExpected {num_return_bytes} bytes, got {len(data)}')
+        print(Fore.YELLOW + f'\nReading Cliff Signals: Expected {num_return_bytes} bytes, got {len(data)}')
     else:
         print(Fore.RED + POWER_ON_CREATE_MSG)
     return l_cliff_signal, r_cliff_signal
+
+
+def read_front_cliff_signals():
+    """Read Create's left and right wheel encoder values"""
+    num_return_bytes = 4
+    num_sensor_packets = 2
+    data = query_create([Opcode.QUERY_LIST, num_sensor_packets, Packet.LEFT_FRONT_CLIFF_SIGNAL,
+                         Packet.RIGHT_FRONT_CLIFF_SIGNAL], num_return_bytes)
+    lf_cliff_signal = 0
+    rf_cliff_signal = 0
+    if len(data) == num_return_bytes:
+        lf_cliff_signal = (data[0] << 8) + data[1]
+        rf_cliff_signal = (data[2] << 8) + data[3]
+    elif len(data) > 0:
+        print(Fore.YELLOW + f'\nReading Cliff Signals: Expected {num_return_bytes} bytes, got {len(data)}')
+    else:
+        print(Fore.RED + POWER_ON_CREATE_MSG)
+    return lf_cliff_signal, rf_cliff_signal
 
 
 def read_cliff_sensors():
     """Read Create's left and right cliff sensors"""
     num_return_bytes = 2
     num_sensor_packets = 2
-    data = query_create([Opcode.QUERY_LIST, num_return_bytes, Packet.LEFT_CLIFF, Packet.RIGHT_CLIFF], num_sensor_packets)
+    data = query_create([Opcode.QUERY_LIST, num_return_bytes, Packet.LEFT_CLIFF, Packet.RIGHT_CLIFF],
+                        num_sensor_packets)
     l_cliff = 0
     r_cliff = 0
     if len(data) == num_sensor_packets:
         l_cliff = data[0]
         r_cliff = data[1]
     elif len(data) > 0:
-        print(Fore.YELLOW + f'\nExpected {num_sensor_packets} bytes, got {len(data)}')
+        print(Fore.YELLOW + f'\nReading Cliff Sensors: Expected {num_sensor_packets} bytes, got {len(data)}')
     else:
         print(Fore.RED + POWER_ON_CREATE_MSG)
     return l_cliff, r_cliff
+
+
+def read_front_cliff_sensors():
+    """Read Create's left and right cliff sensors"""
+    num_return_bytes = 2
+    num_sensor_packets = 2
+    data = query_create([Opcode.QUERY_LIST, num_return_bytes, Packet.LEFT_FRONT_CLIFF, Packet.RIGHT_FRONT_CLIFF],
+                        num_sensor_packets)
+    lf_cliff = 0
+    rf_cliff = 0
+    if len(data) == num_sensor_packets:
+        lf_cliff = data[0]
+        rf_cliff = data[1]
+    elif len(data) > 0:
+        print(Fore.YELLOW + f'\nReading Cliff Sensors: Expected {num_sensor_packets} bytes, got {len(data)}')
+    else:
+        print(Fore.RED + POWER_ON_CREATE_MSG)
+    return lf_cliff, rf_cliff
 
 
 def _high_byte(val):

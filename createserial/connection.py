@@ -8,6 +8,7 @@ def connect():
     reset_create()  # reset Create to start with a clean slate
     open_create()  # initialize the Create
     
+
 def disconnect():
     """Disconnect from the create in a safe manner"""
     close_create()
