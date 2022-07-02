@@ -54,7 +54,7 @@ def verify_install():
 def main():
     check_if_root()
     packages_path = get_packages_path()
-    run(f"sudo rm {os.path.join(packages_path, 'createserial')}", allow_fail=True)
+    run(f"sudo rm -r {os.path.join(packages_path, 'createserial')}", allow_fail=True)
     run(f"sudo cp -r {os.path.join(os.getcwd(), 'createserial')} {packages_path}")
     verify_install()
 
