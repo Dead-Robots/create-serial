@@ -47,9 +47,11 @@ def verify_install():
     try:
         import createserial
         print("Successfully found createserial!")
-    except ImportError:
-        raise ImportError("Failed to find the createserial library installed on the system")
-
+    except ImportError as e:
+        if "createserial" in e.msg:
+            raise ImportError("Failed to find the createserial library installed on the system")
+        else:
+            print(e.msg, 'but otherwise looking ok...')
 
 def main():
     check_if_root()
