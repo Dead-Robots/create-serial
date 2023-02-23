@@ -13,3 +13,15 @@ def disconnect():
     """Disconnect from the create in a safe manner"""
     close_create()
     close_serial()
+
+class CreateConnection:
+    """Allow for use the with statement for Create connections"""
+    def __init__(self):
+        pass
+
+    def __enter__(self):
+        connect()
+        return self
+
+    def __exit__(self, exc_type, exc_value, exc_traceback):
+        disconnect()
