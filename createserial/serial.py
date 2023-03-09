@@ -29,6 +29,10 @@ def open_serial():
     ser.port = PORT
     ser.baudrate = BAUD_RATE
     ser.timeout = TIMEOUT
+    try:  # Try closing the connection in case it is already open
+        ser.close()
+    except serial.SerialException:
+        pass
     try:
         ser.open()
     except serial.SerialException:
