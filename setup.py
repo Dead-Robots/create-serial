@@ -8,5 +8,9 @@ setup(
     license='',
     author='DRS',
     author_email='',
-    description='Python serial interface for Create'
+    description='Python serial interface for Create',
+    install_requires=[
+        'colorama',
+        'pyserial'
+    ]
 )
