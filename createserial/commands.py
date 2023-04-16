@@ -205,7 +205,7 @@ def _low_byte(val):
 
 def as_bytes(val):
     """Extracts the value as high and low bytes"""
-    return _high_byte(val), _low_byte(val)
+    return _high_byte(int(val)), _low_byte(int(val))
 
 
 def create_drive(speed, radius):
