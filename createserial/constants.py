@@ -33,6 +33,7 @@ class Packet(IntEnum):
     LEFT_FRONT_CLIFF_SIGNAL = 29
     RIGHT_FRONT_CLIFF_SIGNAL = 30
     RIGHT_CLIFF_SIGNAL = 31
+    BUMPS_AND_WHEEL_DROPS = 7
 
 
 class PowerLED(IntEnum):

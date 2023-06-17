@@ -193,6 +193,29 @@ def read_front_cliff_sensors():
     return lf_cliff, rf_cliff
 
 
+def read_bump_sensors():
+    """
+    Read Create's left and right bump and wheel drop sensors
+    left and right wheel drop sensors values are ignored
+    bit 0 of return value is the right bump sensor state
+    bit 1 of return value is the left bump sensor state
+    """
+    num_return_bytes = 1
+    num_sensor_packets = 1
+    data = query_create([Opcode.QUERY_LIST, num_return_bytes, Packet.BUMPS_AND_WHEEL_DROPS], num_sensor_packets)
+
+    l_bump = 0
+    r_bump = 0
+    if len(data) == num_sensor_packets:
+        l_bump = data[0] & 0x2
+        r_bump = data[0] & 0x1
+    elif len(data) > 0:
+        print(Fore.YELLOW + f'\nReading Bump Sensors: Expected {num_sensor_packets} bytes, got {len(data)}')
+    else:
+        print(Fore.RED + POWER_ON_CREATE_MSG)
+    return l_bump, r_bump
+
+
 def _high_byte(val):
     """Extracts high byte"""
     return (val >> 8) & 0xff
@@ -219,7 +242,7 @@ def create_drive(speed, radius):
 def create_dd(l_speed, r_speed):
     """
     Drive using Create's "drive direct" command
-    Speed range -500 to 500 mm/sec
+    speed range -500 to 500 mm/sec
     """
     send_to_create([Opcode.DRIVE_DIRECT, *as_bytes(_limit(r_speed, -500, 500)), *as_bytes(_limit(l_speed, -500, 500))])
 
