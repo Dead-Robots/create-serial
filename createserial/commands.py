@@ -213,7 +213,7 @@ def read_bump_sensors():
         print(Fore.YELLOW + f'\nReading Bump Sensors: Expected {num_sensor_packets} bytes, got {len(data)}')
     else:
         print(Fore.RED + POWER_ON_CREATE_MSG)
-    return l_bump, r_bump
+    return l_bump != 0, r_bump != 0
 
 
 def _high_byte(val):
