@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='createserial',
-    version='1.3',
+    version='1.4',
     packages=['createserial'],
     url='https://github.com/Dead-Robots/create-serial',
     license='',
