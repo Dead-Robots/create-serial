@@ -7,7 +7,7 @@ name = "createserial"
 version = "1.4.2"
 description = "Python serial interface for Create"
 authors = [
-    {name = "DRS", email = ""},
+    {name = "DRS", email = "git@graysone.com"},
 ]
 dependencies = [
     "colorama",
