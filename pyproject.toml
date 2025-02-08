@@ -9,7 +9,6 @@ description = "Python serial interface for Create"
 authors = [
     {name = "DRS", email = ""},
 ]
-license = {text = ""}
 dependencies = [
     "colorama",
     "pyserial"
