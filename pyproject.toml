@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "createserial"
+version = "1.4.2"
+description = "Python serial interface for Create"
+authors = [
+    {name = "DRS", email = ""},
+]
+license = {text = ""}
+dependencies = [
+    "colorama",
+    "pyserial"
+]
+urls = { 
+    "Homepage" = "https://github.com/Dead-Robots/create-serial" 
+}
