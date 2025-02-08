@@ -1,18 +1,19 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "createserial"
 version = "1.4.2"
-description = "Python serial interface for Create"
-authors = [
-    {name = "DRS", email = "git@graysone.com"},
-]
+authors = [{ name = "Grayson Elias", email = "git@graysone.com" }]
+description = "Simple upload utility for sending code to a Wombat in Python"
+readme = "README.md"
 dependencies = [
     "colorama",
     "pyserial"
 ]
-urls = { 
-    "Homepage" = "https://github.com/Dead-Robots/create-serial" 
-}
+requires-python = ">=3.9"
+
+[project.urls]
+"Homepage" = "https://github.com/Dead-Robots/PyUpload2Wombat"
+"Bug Tracker" = "https://github.com/Dead-Robots/PyUpload2Wombat/issues"
